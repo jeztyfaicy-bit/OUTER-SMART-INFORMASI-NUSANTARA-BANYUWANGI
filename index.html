@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSING OUTER SMART</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0f2027;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SLIDE 1 / MAIN PAGE BACKGROUND */
+        #mainPage {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            /* GANTI NAMA FILE BACKGROUND DI SINI */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('BANYUWANGI.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .keterangan {
+            max-width: 800px;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* NAVIGASI BUTTONS */
+        .nav-main {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-main {
+            padding: 15px 35px;
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.4s;
+            text-transform: uppercase;
+        }
+
+        .btn-main:hover {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* SECTIONS */
+        .content-section {
+            display: none;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .section-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        /* GRID SYSTEM */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* GLASSMORPHISM CARD */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-content h3 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 50px auto;
+            background: none;
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover { background: #ffd700; color: #000; }
+
+
+        #destinasi {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('DESTINASI.jpeg') no-repeat center center;
+    background-size: cover !important;
+    background-attachment: fixed;
+    width: 100%;
+    min-height: 100vh;
+}
+
+#budaya {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('BUDAYA.jpeg') no-repeat center center;
+    background-size: cover !important;
+    background-attachment: fixed;
+    width: 100%;
+    min-height: 100vh;
+}
+
+#makanan {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('MAKANAN.jpeg') no-repeat center center;
+    background-size: cover !important;
+    background-attachment: fixed;
+    width: 100%;
+    min-height: 100vh;
+}
+
+        /* Style Pop-up Galeri */
+.overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.content-gallery {
+    display: grid;
+    /* Membuat 3 kolom yang sama besar */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px;
+    padding: 20px;
+}
+
+.content-gallery img {
+    width: 100%;
+    height: 200px; /* Samakan tinggi semua gambar */
+    object-fit: cover; /* Biar gambar tidak gepeng */
+    border-radius: 10px;
+    border: 2px solid #ffd700;
+    transition: 0.3s;
+}
+
+.content-gallery img:hover {
+    transform: scale(1.05); /* Efek zoom dikit saat disentuh */
+}
+
+/* Responsif: Kalau buka di HP, jadi 2 kolom saja */
+@media (max-width: 600px) {
+    .content-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.popup {
+    margin: 2vh auto;        /* Jarak otomatis agar di tengah */
+    padding: 30px 20px;
+    background: #1a1a1a;
+    border-radius: 20px;
+    width: 90%;              /* Lebar fleksibel untuk HP */
+    max-width: 900px;        /* Lebar maksimal di Laptop */
+    position: relative;
+    border: 2px solid #ffd700; /* Garis emas khas Banyuwangi */
+    
+    /* Fitur Scroll Internal */
+    max-height: 90vh;        /* Tinggi maksimal 90% layar */
+    overflow-y: auto;        /* Jika foto banyak, scroll di dalam kotak saja */
+}
+
+.popup h2 { 
+    margin-bottom: 20px; 
+    color: #ffd700; 
+    text-align: center; 
+    text-transform: uppercase;
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px; 
+    right: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffd700;
+    line-height: 1;
+    z-index: 10001; /* Pastikan tombol X selalu di atas foto */
+}
+}
+.content-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+.content-gallery img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ffd700;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <header id="mainPage">
+        <h1>OSING OUTER SMART</h1>
+        <p class="keterangan">Selamat datang di platform informasi digital masa depan Banyuwangi. Kami menghadirkan transformasi digital untuk meningkatkan kesadaran budaya dan pariwisata lokal berbasis teknologi terkini.</p>
+        <div class="nav-main">
+            <button class="btn-main" onclick="showSection('destinasi')">DESTINASI</button>
+            <button class="btn-main" onclick="showSection('budaya')">BUDAYA</button>
+            <button class="btn-main" onclick="showSection('makanan')">MAKANAN</button>
+        </div>
+    </header>
+
+  <section id="destinasi" class="content-section">
+    <h2 class="section-title">DESTINASI WISATA</h2>
+    <div class="grid">
+        <a href="#popup-ijen" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="KAWAH IJEN.jpeg"> <div class="card-content"><h3>Kawah Ijen</h3><p>Destinasi ikonik dengan fenomena blue fire yang langka. Keindahan kawah belerang berpadu panorama pegunungan.</p></div></div>
+        </a>
+
+        <a href="#popup-legomoro" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="LEGOMORO.jpeg"> <div class="card-content"><h3>Legomoro</h3><p>Air terjun kembar di tengah hutan pinus yang asri. Memberikan ketenangan bagi setiap pengunjung.</p></div></div>
+        </a>
+
+        <a href="#popup-merah" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="PULAU MERAH.jpeg"> <div class="card-content"><h3>Pulau Merah</h3><p>Terkenal dengan bukit 200 meter di bibir pantai dan sunset yang sangat memukau.</p></div></div>
+        </a>
+
+        <a href="#popup-baluran" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="BALURAN.jpeg"> <div class="card-content"><h3>TN Baluran</h3><p>"Africa van Java" dengan sabana luas, hutan kering, dan pantai yang indah.</p></div></div>
+        </a>
+
+        <a href="#popup-sadengan" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="ALAS PURWO.jpeg"> <div class="card-content"><h3>ALAS PURWO</h3><p>Padang rumput alami di Alas Purwo dengan satwa liar yang bebas berkeliaran.</p></div></div>
+        </a>
+
+        <a href="#popup-tabuhan" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="TABUHAN.jpeg"> <div class="card-content"><h3>Pulau Tabuhan</h3><p>Pulau mungil tak berpenghuni dengan pasir putih dan spot terbaik untuk snorkeling.</p></div></div>
+        </a>
+
+        <a href="#popup-djawatan" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="DJAWATAN.jpeg"> <div class="card-content"><h3>De Djawatan</h3><p>Hutan trembesi raksasa rimbun yang menciptakan atmosfer magis nan dramatis.</p></div></div>
+        </a>
+
+        <a href="#popup-bangsring" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="BANGSRING.jpeg"> <div class="card-content"><h3>Bangsring Underwater</h3><p>Wisata konservasi. Sensasi berenang bersama hiu jinak di rumah apung tengah laut.</p></div></div>
+        </a>
+
+        <a href="#popup-telukijo" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="TELUK IJO.jpeg"> <div class="card-content"><h3>Teluk Hijau</h3><p>Permata tersembunyi dengan air laut hijau jernih dikelilingi tebing tinggi.</p></div></div>
+        </a>
+
+        <a href="#popup-kemiren" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="KEMIREN.jpeg"> <div class="card-content"><h3>Desa Kemiren</h3><p>Mengenal filosofi hidup Suku Osing, arsitektur rumah adat, dan ritual kopi.</p></div></div>
+        </a>
+
+        <a href="#popup-boom" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="BOOM.jpeg"> <div class="card-content"><h3>Pantai Boom Marina</h3><p>Marina modern elegan, tempat terbaik melihat kapal pesiar dan jembatan spiral.</p></div></div>
+        </a>
+
+        <a href="#popup-watudodol" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="GWD.jpeg"> <div class="card-content"><h3>Pantai Watu Dodol</h3><p>Gerbang masuk Banyuwangi dengan view Selat Bali dan patung Gandrung yang ikonik.</p></div></div>
+        </a>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">Kembali ke Menu</button>
+
+    <div id="popup-ijen" class="overlay"><div class="popup"><h2>GALERI KAWAH IJEN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="IJEN1.jpeg"><img src="IJEN2.jpeg"><img src="IJEN3.jpeg"><img src="IJEN4.jpeg"><img src="IJEN5.jpeg"></div></div></div>
+    
+    <div id="popup-legomoro" class="overlay"><div class="popup"><h2>GALERI LEGOMORO</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="LEGO1.jpeg"><img src="LEGO2.jpeg"><img src="LEGO3.jpeg"><img src="LEGO4.jpeg"><img src="LEGO5.jpeg"></div></div></div>
+    
+    <div id="popup-merah" class="overlay"><div class="popup"><h2>GALERI PULAU MERAH</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="MERAH1.jpeg"><img src="MERAH2.jpeg"><img src="MERAH3.jpeg"><img src="MERAH4.jpeg"><img src="MERAH5.jpeg"></div></div></div>
+    
+    <div id="popup-baluran" class="overlay"><div class="popup"><h2>GALERI TN BALURAN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="BALURAN1.jpeg"><img src="BALURAN2.jpeg"><img src="BALURAN3.jpeg"><img src="BALURAN4.jpeg"><img src="BALURAN5.jpeg"></div></div></div>
+    
+    <div id="popup-sadengan" class="overlay"><div class="popup"><h2>GALERI ALAS PURWO</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="SADENGAN1.jpeg"><img src="SADENGAN2.jpeg"><img src="SADENGAN3.jpeg"><img src="SADENGAN4.jpeg"><img src="SADENGAN5.jpeg"></div></div></div>
+    
+    <div id="popup-tabuhan" class="overlay"><div class="popup"><h2>GALERI PULAU TABUHAN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="TABUHAN1.jpeg"><img src="TABUHAN2.jpeg"><img src="TABUHAN3.jpeg"><img src="TABUHAN4.jpeg"><img src="TABUHAN5.jpeg"></div></div></div>
+    
+    <div id="popup-djawatan" class="overlay"><div class="popup"><h2>GALERI DE DJAWATAN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="DJAWATAN1.jpeg"><img src="DJAWATAN2.jpeg"><img src="DJAWATAN3.jpeg"><img src="DJAWATAN4.jpeg"><img src="DJAWATAN5.jpeg"></div></div></div>
+    
+    <div id="popup-bangsring" class="overlay"><div class="popup"><h2>GALERI BANGSRING</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="BANGSRING1.jpeg"><img src="BANGSRING2.jpeg"><img src="BANGSRING3.jpeg"><img src="BANGSRING4.jpeg"><img src="BANGSRING5.jpeg"></div></div></div>
+    
+    <div id="popup-telukijo" class="overlay"><div class="popup"><h2>GALERI TELUK HIJAU</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="IJO1.jpeg"><img src="IJO2.jpeg"><img src="IJO3.jpeg"><img src="IJO4.jpeg"><img src="IJO5.jpeg"></div></div></div>
+    
+    <div id="popup-kemiren" class="overlay"><div class="popup"><h2>GALERI DESA KEMIREN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="KEMIREN1.jpeg"><img src="KEMIREN2.jpeg"><img src="KEMIREN3.jpeg"><img src="KEMIREN4.jpeg"><img src="KEMIREN5.jpeg"></div></div></div>
+    
+    <div id="popup-boom" class="overlay"><div class="popup"><h2>GALERI PANTAI BOOM</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="BOOM1.jpeg"><img src="BOOM2.jpeg"><img src="BOOM3.jpeg"><img src="BOOM4.jpeg"><img src="BOOM5.jpeg"></div></div></div>
+    
+    <div id="popup-watudodol" class="overlay"><div class="popup"><h2>GALERI WATU DODOL</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="WADOL1.jpeg"><img src="WADOL2.jpeg"><img src="WADOL3.jpeg"><img src="WADOL4.jpeg"><img src="WADOL5.jpeg"></div></div></div>
+
+</section>
+
+    <section id="budaya" class="content-section">
+    <h2 class="section-title">BUDAYA & TRADISI</h2>
+    <div class="grid">
+        <a href="#popup-gandrung" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="GANDRUNG.jpeg"> <div class="card-content"><h3>Gandrung Sewu</h3><p>Pertunjukan tari kolosal seribu penari di atas pasir pantai yang menggetarkan jiwa.</p></div></div>
+        </a>
+
+        <a href="#popup-bec" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="BEC.jpeg"> <div class="card-content"><h3>BEC</h3><p>Parade busana modern berskala internasional yang berakar kuat pada kearifan lokal.</p></div></div>
+        </a>
+
+        <a href="#popup-seblang" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="SEBLANG.jpeg"> <div class="card-content"><h3>Seblang</h3><p>Ritual tari magis dalam kondisi tidak sadar sebagai permohonan keselamatan desa.</p></div></div>
+        </a>
+
+        <a href="#popup-jaranan" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="JARANAN.jpeg"> <div class="card-content"><h3>Jaranan Buto</h3><p>Tarian ekspresif menggambarkan sosok raksasa dengan riasan wajah mencolok.</p></div></div>
+        </a>
+
+        <a href="#popup-kebo" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="KEBO.jpeg"> <div class="card-content"><h3>Kebo-Keboan</h3><p>Simbol penghormatan kepada alam demi hasil panen melimpah dengan warga berdandan kerbau.</p></div></div>
+        </a>
+
+        <a href="#popup-tumpeng" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="TUMPENG.jpeg"> <div class="card-content"><h3>Tumpeng Sewu</h3><p>Tradisi makan bersama ribuan tumpeng sebagai wujud rasa syukur kolektif suku Osing.</p></div></div>
+        </a>
+
+        <a href="#popup-barong" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="BARONG.jpeg"> <div class="card-content"><h3>Barong Ider Bumi</h3><p>Ritual bersih desa pada hari raya kedua Idul Fitri untuk menolak bala.</p></div></div>
+        </a>
+
+        <a href="#popup-petik" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="PETIK.jpeg"> <div class="card-content"><h3>Petik Laut</h3><p>Upacara larung sesaji ke samudera sebagai bentuk syukur masyarakat nelayan.</p></div></div>
+        </a>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">Kembali ke Menu</button>
+
+    <div id="popup-gandrung" class="overlay"><div class="popup"><h2>GALERI GANDRUNG SEWU</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="GANDRUNG1.jpeg"><img src="GANDRUNG2.jpeg"><img src="GANDRUNG3.jpeg"><img src="GANDRUNG4.jpeg"><img src="GANDRUNG5.jpeg"></div></div></div>
+    
+    <div id="popup-bec" class="overlay"><div class="popup"><h2>GALERI BEC</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="BEC1.jpeg"><img src="BEC2.jpeg"><img src="BEC3.jpeg"><img src="BEC4.jpeg"><img src="BEC5.jpeg"></div></div></div>
+    
+    <div id="popup-seblang" class="overlay"><div class="popup"><h2>GALERI SEBLANG</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="SEBLANG1.jpeg"><img src="SEBLANG2.jpeg"><img src="SEBLANG3.jpeg"><img src="SEBLANG4.jpeg"><img src="SEBLANG5.jpeg"></div></div></div>
+    
+    <div id="popup-jaranan" class="overlay"><div class="popup"><h2>GALERI JARANAN BUTO</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="JARANAN1.jpeg"><img src="JARANAN2.jpeg"><img src="JARANAN3.jpeg"><img src="JARANAN4.jpeg"><img src="JARANAN5.jpeg"></div></div></div>
+    
+    <div id="popup-kebo" class="overlay"><div class="popup"><h2>GALERI KEBO-KEBOAN</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="KEBO1.jpeg"><img src="KEBO2.jpeg"><img src="KEBO3.jpeg"><img src="KEBO4.jpeg"><img src="KEBO5.jpeg"></div></div></div>
+    
+    <div id="popup-tumpeng" class="overlay"><div class="popup"><h2>GALERI TUMPENG SEWU</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="TUMPENG1.jpeg"><img src="TUMPENG2.jpeg"><img src="TUMPENG3.jpeg"><img src="TUMPENG4.jpeg"><img src="TUMPENG5.jpeg"></div></div></div>
+    
+    <div id="popup-barong" class="overlay"><div class="popup"><h2>GALERI BARONG IDER BUMI</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="BARONG1.jpeg"><img src="BARONG2.jpeg"><img src="BARONG3.jpeg"><img src="BARONG4.jpeg"><img src="BARONG5.jpeg"></div></div></div>
+    
+    <div id="popup-petik" class="overlay"><div class="popup"><h2>GALERI PETIK LAUT</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="PETIK1.jpeg"><img src="PETIK2.jpeg"><img src="PETIK3.jpeg"><img src="PETIK4.jpeg"><img src="PETIK5.jpeg"></div></div></div>
+
+</section>
+
+    <section id="makanan" class="content-section">
+    <h2 class="section-title">KULINER KHAS</h2>
+    <div class="grid">
+        <a href="#popup-tempong" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="TEMPONG.jpeg"> <div class="card-content"><h3>Sego Tempong</h3><p>Nasi legenda dengan sambal tomat mentah pedas yang seolah "menampar" lidah.</p></div></div>
+        </a>
+
+        <a href="#popup-rujaksoto" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="SOTO.jpeg"> <div class="card-content"><h3>Rujak Soto</h3><p>Fusion unik bumbu kacang rujak cingur dengan gurihnya kuah soto babat.</p></div></div>
+        </a>
+
+        <a href="#popup-kesrut" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="KESRUT.jpeg"> <div class="card-content"><h3>Ayam Kesrut</h3><p>Sup ayam kampung khas Osing dengan kuah asam segar dari belimbing wuluh.</p></div></div>
+        </a>
+
+        <a href="#popup-pecelpitik" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="PECEL.jpeg"> <div class="card-content"><h3>Pecel Pitik</h3><p>Ayam bakar suwir dicampur parutan kelapa berbumbu rempah, hidangan wajib adat.</p></div></div>
+        </a>
+
+        <a href="#popup-pindang" style="text-decoration: none; color: inherit;">
+            <div class="card"><img src="PINDANG.jpeg"> <div class="card-content"><h3>Pindang Koyong</h3><p>Olahan ikan laut segar kuah kuning dengan rasa asam-pedas khas pesisir.</p></div></div>
+        </a>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">Kembali ke Menu</button>
+
+    <div id="popup-tempong" class="overlay"><div class="popup"><h2>GALERI SEGO TEMPONG</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="TEMPONG1.jpeg"><img src="TEMPONG2.jpeg"><img src="TEMPONG3.jpeg"><img src="TEMPONG4.jpeg"><img src="TEMPONG5.jpeg"></div></div></div>
+    
+    <div id="popup-rujaksoto" class="overlay"><div class="popup"><h2>GALERI RUJAK SOTO</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="SOTO1.jpeg"><img src="SOTO2.jpeg"><img src="SOTO3.jpeg"><img src="SOTO4.jpeg"><img src="SOTO5.jpeg"></div></div></div>
+    
+    <div id="popup-kesrut" class="overlay"><div class="popup"><h2>GALERI AYAM KESRUT</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="KESRUT1.jpeg"><img src="KESRUT2.jpeg"><img src="KESRUT3.jpeg"><img src="KESRUT4.jpeg"><img src="KESRUT5.jpeg"></div></div></div>
+    
+    <div id="popup-pecelpitik" class="overlay"><div class="popup"><h2>GALERI PECEL PITIK</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="PECEL1.jpeg"><img src="PECEL2.jpeg"><img src="PECEL3.jpeg"><img src="PECEL4.jpeg"><img src="PECEL5.jpeg"></div></div></div>
+    
+    <div id="popup-pindang" class="overlay"><div class="popup"><h2>GALERI PINDANG KOYONG</h2><a class="close" href="#">&times;</a><div class="content-gallery"><img src="PINDANG1.jpeg"><img src="PINDANG2.jpeg"><img src="PINDANG3.jpeg"><img src="PINDANG4.jpeg"><img src="PINDANG5.jpeg"></div></div></div>
+
+</section>
+
+    <script>
+        function showSection(id) {
+            document.getElementById('mainPage').style.display = 'none';
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function goBack() {
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById('mainPage').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
